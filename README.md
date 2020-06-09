@@ -12,8 +12,8 @@ of my work.
 
 --------------------------------------------------------------------------------------------
 
-Current Branch: Master
+Current Branch: titanic
 
-The master branch will remain empty except for this file. Each individual problem will have 
-it's dedicated branch. Further information for each project, can be found in that branch's
-README.md file. 
+This branch stores the code to my solution to the titanic kaggle problem. This problem
+is meant to be the tutorial on how to use Kaggle, and I chose to do it because of that.
+After this problem I hope that I will be able to move onto some more challenging projects.
