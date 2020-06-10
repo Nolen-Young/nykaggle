@@ -9,6 +9,7 @@
 #######################################################################################################################
 
 import pandas as pd
+import numpy as np
 import sys
 import os
 from sklearn.ensemble import RandomForestClassifier
@@ -25,9 +26,21 @@ def main(trainFilePath, testFilePath):
         print("Error: {}".format(err))
         return 1
 
-    model = learn(trainData)
-    results = test(testData, model)
+    # Clean up our data
+    print ("Cleaning Data...")
+    trainData = cleanData(trainData)
+    testData = cleanData(testData)
 
+    # run learning
+    print("Cleaning Data Complete.\nLearning...")
+    model = learn(trainData)
+
+    # run testing
+    print("Learning Complete.\nTesting...")
+    results = test(testData, model)
+    print("Testing Complete.")
+
+    # get output and write to csv
     output = pd.DataFrame({'PassengerId': testData.PassengerId, 'Survived': results})
     output.to_csv('results.csv', index=False)
 
@@ -38,12 +51,19 @@ def main(trainFilePath, testFilePath):
 def learn(trainData):
     Y = trainData["Survived"]
     X = pd.get_dummies(trainData[features])
-    model = RandomForestClassifier(n_estimators=1000, max_depth=50, random_state=1)
+    model = RandomForestClassifier(n_estimators=10000, max_depth=100, random_state=1)
     return model.fit(X, Y)
 
 def test(testData, model):
     X_test = pd.get_dummies(testData[features])
     return model.predict(X_test)
+
+
+# This algorithm takes our pandas csv representation and does necessary functions in order to clean up
+# the data.
+def cleanData(data):
+    data['Age'] = data['Age'].fillna(0)
+    return data
 
 
 # parse command line args
